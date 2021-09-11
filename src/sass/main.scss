@@ -1,7 +1,24 @@
-/*
- * Главный файл стилей.
- * Все паршалы подключаются сюда.
- */
-
-// Стили для файла с примером HTML-фрагмента
-@import './example';
+.search-form {
+  text-align: center;
+  margin-top: 30px;
+}
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+.gallery__item {
+  margin: 20px;
+}
+.photo__img {
+  width: 320px;
+  height: 210px;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.stats-item + .stats-item {
+  margin-left: 20px;
+}

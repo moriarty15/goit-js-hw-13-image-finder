@@ -1,27 +1,26 @@
-<li class="menu__item" id="{{id}}">
-    <article class="card">
-        <img src="{{image}}" alt="{{name}}" class="card__image" />
-        <div class="card__content">
-            <h2 class="card__name">{{name}}</h2>
-            <p class="card__price">
-                <i class="material-icons"> monetization_on </i>
-                {{price}} кредитов
+{{#each hits}}
+<li class="gallery__item">
+    <div class="photo-card">
+        <img src="{{webformatURL}}" alt="" class="photo__img"/>
+    
+        <div class="stats">
+            <p class="stats-item">
+                <i class="material-icons">thumb_up</i>
+                {{likes}}
             </p>
-
-            <p class="card__descr">
-                {{description}}
+            <p class="stats-item">
+                <i class="material-icons">visibility</i>
+                {{views}}
             </p>
-
-            <ul class="tag-list">
-                {{#each ingredients}}
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}}
-            </ul>
+            <p class="stats-item">
+                <i class="material-icons">comment</i>
+                {{comments}}
+            </p>
+            <p class="stats-item">
+                <i class="material-icons">cloud_download</i>
+                {{downloads}}
+            </p>
         </div>
-
-        <button class="card__button button">
-            <i class="material-icons button__icon"> shopping_cart </i>
-            В корзину
-        </button>
-    </article>
+    </div>
 </li>
+{{/each}}
