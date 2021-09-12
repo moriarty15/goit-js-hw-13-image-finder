@@ -20,7 +20,7 @@ const arrayIdImg = [];
 function onSearch(e) {
   const currentRequest = e.target.value;
   if (e.target.value === " " || e.target.value === "") return;
-  if (currentRequest.split(' ')[currentRequest.split(' ').length - 1] === '') { return}
+  // if (currentRequest.split(' ')[currentRequest.split(' ').length - 1] === '') { return}
   if (currentRequest.split(' ').length > 1) {
     if (currentRequest.split(' ').every(e => e === ''))
       {return}
