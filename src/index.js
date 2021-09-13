@@ -16,33 +16,40 @@ const newApiService = new NewApiRequest();
 
 const arrayLargeImageURL = [];
 const arrayIdImg = [];
+// IntersectionObserver
+const observed = new IntersectionObserver(observerScroollHandlet, { threshold: 1.0 })
+
+let currentRequest = '';
 
 function onSearch(e) {
-  const currentRequest = e.target.value;
-  if (e.target.value === " " || e.target.value === "") return;
-  // if (currentRequest.split(' ')[currentRequest.split(' ').length - 1] === '') { return}
-  if (currentRequest.split(' ').length > 1) {
-    if (currentRequest.split(' ').every(e => e === ''))
-      {return}
-  }
-  // let isTrue = true;
-  clearGalleryContainer();
-  newApiService.query = currentRequest;
-  newApiService.resetPage();
-  observed.observe(targetEl)
+  if (e.target.value.trim() === "" || currentRequest === e.target.value.trim()) return;
+  currentRequest = e.target.value.trim();
 
+  clearGalleryContainer();
+  observed.unobserve(targetEl)
+  newApiService.query = currentRequest;
+
+  newApiService.resetPage();
+    
+  return observed.observe(targetEl)  
 }
+
+function observerScroollHandlet(entries) {
+  if (!entries[0].isIntersecting) return  
+    return feaching();
+}  
+
 function feaching() {
-  newApiService.feachArticles().then(hits => {
-    if (hits.length < 1) { console.log('ошибка')
-      return 
-    }
+  return newApiService.feachArticles().then(hits => {
+    if (hits.length === 0) {return info({
+  text: "По данному запросу ничего не найдено, сделайте запрос более специфичным"
+})}
     hits.forEach(e => arrayLargeImageURL.push(e.largeImageURL))
     hits.forEach(e => arrayIdImg.push(e.id))
     appendHitsMarkup(hits)
-  }).catch(error({
-  text: "по данному запросу нет данных, пожалуйста перезагрузи страницу и продолжи поиск"})
-  )
+  }).catch(err => 
+         {error({
+  text: "Упс, что-то пошло не так, попробуйте еще раз"})})
 }
 
 function appendHitsMarkup(hits) {
@@ -53,8 +60,8 @@ function clearGalleryContainer() {
   galleryEl.innerHTML = '';
 }
 
+// модалка с фотографией исходного размера
 galleryEl.addEventListener('click', openModal);
-
 let srcOnModal = '';
 
 function openModal(e) {
@@ -72,41 +79,3 @@ function openModal(e) {
   }
   return
 }
-
-// IntersectionObserver
-function observerScroollHandlet(entries) {
-  if (!entries[0].isIntersecting) return
-  return feaching();
-}
-
-const observed = new IntersectionObserver(observerScroollHandlet, {threshold: 1.0})
-
-
-
-
-// попытки разобраться с поиском!!!!!!!!!!!!!!!!!!!!!!!!!
-  // newApiService.feachArticles().then(hits => {
-  //   hits.forEach(e => arrayLargeImageURL.push(e.largeImageURL))
-  //   hits.forEach(e => arrayIdImg.push(e.id))
-    
-  //   appendHitsMarkup(hits)
-  // })
-    
-  
-  // if (searchString.every(e => (e === ''))) {return}
-  // if (searchString[searchString.length - 1] !== '') {
-  //   preCurrentValue = searchString;
-  // }
-  // for (let i = 0; i < searchString.length - 1; i += 1) {
-  //   if (searchString[i] !== preCurrentValue[i]) {
-  //     isTrue = false;
-  //   }
-  // }
-
-  // if ((isTrue) && (searchString[searchString.length - 1] === '')) { return }
-
-  // if (searchString.length > 1) {searchString = searchString.join('+') }
-
-  // if (searchString.length > 1) { searchString = searchString.split('+') }
-  // console.log(searchString)
-  // return e.target.value

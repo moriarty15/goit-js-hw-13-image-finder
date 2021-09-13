@@ -1,3 +1,4 @@
+import { alert, notice, info, success, error } from '@pnotify/core';
 export default class NewApiRequest {
    constructor() {
       this.searchQuery = '';
@@ -13,8 +14,10 @@ export default class NewApiRequest {
       const data = await hits.hits;
       this.incrementPage();
          return data
-      } catch(err) {
-         throw err;
+      } catch {
+         error({
+  text: "Упс, что-то пошло не так, попробуйте еще раз"})
+  
       }
 
       // через промис
